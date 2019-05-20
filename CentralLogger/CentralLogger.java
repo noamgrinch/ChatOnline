@@ -13,45 +13,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-public class CentralLogger /*implements Runnable*/{ // need to fix ad the very end.
-	
+public class CentralLogger implements Runnable{ 
 
-	
-	public static void main(String[] args){
-	
-		final Logger LOGGER;
-		FileHandler handler=null;
 
-		LOGGER = Logger.getLogger(CentralLogger.class.getName());
-		try {
-			handler = new FileHandler("LogEntries.log", true);
-			handler.setFormatter(new MyFormatter());
-		} catch (SecurityException | IOException e) {
-			e.printStackTrace();
-		}
-		if(handler!=null){
-			LOGGER.addHandler(handler);
-		}
-		
-		ServerSocket ss;
-		
-		boolean cont = true;
-		try {
-			ss = new ServerSocket(7777);
-			while(cont){
-				new LogThread(ss.accept()).run();
-			}
-		}
-		
-		catch(Exception e){
-			LOGGER.severe(getExString(e));
-			JOptionPane.showMessageDialog(null, "UnknownHostException");
-		}
-	
-	}//main
-
-	//@Override
-	/*public void run() {
+	@Override
+	public void run() {
 		final Logger LOGGER;
 		FileHandler handler=null;
 
@@ -81,7 +47,7 @@ public class CentralLogger /*implements Runnable*/{ // need to fix ad the very e
 			JOptionPane.showMessageDialog(null, "UnknownHostException");
 		}
 		
-	}*/
+	}
 	
 	
 	public static String getExString(Exception e){
@@ -103,3 +69,4 @@ public class CentralLogger /*implements Runnable*/{ // need to fix ad the very e
 	}//getExString
 
 }
+
