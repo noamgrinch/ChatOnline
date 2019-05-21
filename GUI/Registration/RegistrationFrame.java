@@ -13,7 +13,7 @@ public class RegistrationFrame extends JFrame{
 		this.setLoginpanel(loginpanel);
 		p = new RegPanel(this,loginpanel);
 		this.add(p);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
