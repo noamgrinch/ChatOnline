@@ -32,7 +32,7 @@ public class Server implements Runnable{
 				}
 			} 
 			catch (Exception e) {
-					new SendLogThread(Level.SEVERE,e).run();
+					new SendLogThread(Level.SEVERE,e).start();
 			}	
 	}
 	
