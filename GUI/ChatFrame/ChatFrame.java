@@ -32,7 +32,7 @@ public class ChatFrame extends JFrame{
 			this.setChat();
 			ClientPanel p = new ClientPanel(self,otherguy,chat);
 			this.add(p);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setSize(400, 400);
 			this.setVisible(true);
 			TopPanelUpdaterThread up = new TopPanelUpdaterThread(p); 
