@@ -28,7 +28,7 @@ public class Server implements Runnable{
 	public void run() {	
 			try {
 				while(true) {	
-					new ClientThread(ss.accept(),userDB,chatsDB).run();
+					new ClientThread(ss.accept(),userDB,chatsDB).start();
 				}
 			} 
 			catch (Exception e) {
