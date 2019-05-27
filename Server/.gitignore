@@ -1,0 +1,13 @@
+/ClientThread.class
+/RunServers.class
+/Server.class
+/ServerAddFriendThread.class
+/ServerFriendUpdaterThread.class
+/ServerInitillizeChatThread.class
+/ServerInitillizeUserThread.class
+/ServerLoginThread.class
+/ServerPutThread.class
+/ServerRegThread.class
+/ServerRemoveFriendThread.class
+/UpdateThread.class
+/ServerUserLogOffThread.class

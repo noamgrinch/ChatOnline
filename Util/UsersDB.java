@@ -4,6 +4,8 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 import CentralLogger.SendLogThread;
 
 
@@ -27,6 +29,16 @@ public class UsersDB {
 	
 	public boolean exsits(String name) {
 		return users.containsKey(name);
+	}
+	
+	public boolean LogOff(String  username) {
+		if(!users.containsKey(username)) {
+			return false;
+		}
+		User user = users.get(username);
+		user.setStatus(false);
+		return true;
+		
 	}
 	
 	public User removeFriend(User user,String friendtoremove) {

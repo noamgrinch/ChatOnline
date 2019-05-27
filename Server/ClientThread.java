@@ -22,6 +22,7 @@ public class ClientThread extends Thread{
 	private final int REMOVEFRIENDFLOW = 7;
 	private final int GETUSERFLOW=8;
 	private final int GETSETCHAT = 9;
+	private final int LOGOFFFLOW = 10;
 	
 	
 	public ClientThread(Socket s,UsersDB userDB,ChatsDB chatsDB) {
@@ -62,6 +63,9 @@ public class ClientThread extends Thread{
 				}
 				if(code==GETSETCHAT){
 					new ServerInitillizeChatThread(s,chatsDB,in).run();
+				}
+				if(code==LOGOFFFLOW){
+					new ServerUserLogOffThread(s,userDB,in).run();
 				}
 				
 				
