@@ -1,6 +1,7 @@
 package Util;
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -24,14 +25,13 @@ public class UsersDB {
 		User b = new User("b","b","b@b.com");
 		users.put("a",a);
 		users.put("b",b);
-		a.addFriend(b);
 	}
 	
-	public boolean exsits(String name) {
+	public synchronized boolean exsits(String name) {
 		return users.containsKey(name);
 	}
 	
-	public boolean LogOff(String  username) {
+	public synchronized boolean LogOff(String  username) {
 		if(!users.containsKey(username)) {
 			return false;
 		}
@@ -41,7 +41,21 @@ public class UsersDB {
 		
 	}
 	
-	public User removeFriend(User user,String friendtoremove) {
+	public synchronized boolean declineFriendRequest(User user,String friend) {
+		User fr = users.get(friend);
+		user = this.users.get(user.getName());
+		if(fr==null) {
+			return false;
+		}
+		user.removeInFriendRequest(friend);
+		user.removeOutFriendRequest(friend);
+		fr.removeOutFriendRequest(user.getName());
+		fr.removeInFriendRequest(user.getName());	
+		return true;
+	}
+	
+	public synchronized User removeFriend(User user,String friendtoremove) {
+		user = this.users.get(user.getName());
 		if(!users.containsKey(friendtoremove)) {
 			return user;
 		}
@@ -50,7 +64,8 @@ public class UsersDB {
 		return user.removeFriend(friend);
 	}
 	
-	public Object[][] getFriendsForTable(User user){ 
+	public synchronized Object[][] getFriendsForTable(User user){ 
+		user = this.users.get(user.getName());
 		ArrayList<User> friends = (ArrayList<User>) user.getFriendsList();
 		Object [][] result = new Object[friends.size()][2];
 		for(int i=0;i<friends.size();i++) {
@@ -62,7 +77,22 @@ public class UsersDB {
 		
 	}
 	
-	public int registerUserInDB(String name,String password,String email){ 
+	public synchronized Object[][] getInFriendsRequestsForTable(User user){ 
+		user = this.users.get(user.getName());
+		TreeSet<String> friends = (TreeSet<String>) user.getInReqeustsFriendsList();
+		Object [][] result = new Object[friends.size()][2];
+		int i=0;
+		for(String fr: friends) {
+			result[i][0] = fr;
+			result[i][1] = ("Confirm/Decline");
+			i++;
+		}
+		
+		return result;
+		
+	}
+	
+	public synchronized int registerUserInDB(String name,String password,String email){ 
 		if(users.containsKey(name)){
 			return EXSITSINDB;
 		}
@@ -75,7 +105,7 @@ public class UsersDB {
 	}
 	
 	
-	public boolean LogIn(String name,String password){
+	public synchronized boolean LogIn(String name,String password){
 		if(!users.containsKey(name)){
 			return false;
 		}
@@ -84,18 +114,32 @@ public class UsersDB {
 		return true;
 	}
 	
-	public User addFriend(User user,String usertobeadded) {
+	public synchronized boolean addFriend(User user,String usertobeadded) {
+		User friend = users.get(usertobeadded);
+		user = this.users.get(user.getName());
+		if(friend==null) {
+			return false;
+		}
+		user.addToFriendsList(friend);
+		user.removeInFriendRequest(usertobeadded);
+		user.removeOutFriendRequest(usertobeadded);
+		friend.addToFriendsList(user);
+		friend.removeOutFriendRequest(user.getName());
+		friend.removeInFriendRequest(user.getName());	
+		return true;		
+	}
+	
+	public synchronized User addFriendRequest(User user,String usertobeadded) {
 		User friend = users.get(usertobeadded);
 		if(friend==null) {
 			return user;
 		}
-		user.addToFriendsList(friend);
-		friend.addToFriendsList(user);
-		return user;
-		
+		user.addOutFriendRequest(friend.getName());
+		friend.addInFriendRequest(user.getName());
+		return user;		
 	}
 	
-	public boolean userFormat(String name,String password,String email){
+	public synchronized boolean userFormat(String name,String password,String email){
 		String tmpname = new String(name);
 		String tmppassword = new String(password);
 		
@@ -114,7 +158,7 @@ public class UsersDB {
 		
 	}
 
-	public User getUser(String name) {		
+	public synchronized User getUser(String name) {		
 		return users.get(name);	
 	}
 	

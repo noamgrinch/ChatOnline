@@ -48,7 +48,7 @@ public class ClientLoginThread extends Thread{
 				}
 			}
 			catch(Exception ex) {
-				new SendLogThread(Level.SEVERE,ex);
+				new SendLogThread(Level.SEVERE,ex).run();
 			}
 			finally{
 					try{	
@@ -57,7 +57,7 @@ public class ClientLoginThread extends Thread{
 						soc.close();
 					}
 					catch(Exception ex){
-						new SendLogThread(Level.SEVERE,ex);
+						new SendLogThread(Level.SEVERE,ex).run();
 					}
 
 			}

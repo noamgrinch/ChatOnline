@@ -16,7 +16,7 @@ public class AddFriendRequestThread extends Thread{
 	private Socket soc;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private final int ADDFRIENDFLOW = 5;
+	private final int ADDFRIENDREQUESTFLOW = 5;
 	private FriendsTablePanel pan;
 	
 	public AddFriendRequestThread(FriendsTablePanel pan,User user,String friendtoadd) {
@@ -33,7 +33,7 @@ public class AddFriendRequestThread extends Thread{
 			try {
 				soc = new Socket("Localhost",8888);
 				out = new ObjectOutputStream(soc.getOutputStream());		
-				out.writeObject((int)ADDFRIENDFLOW);
+				out.writeObject((int)ADDFRIENDREQUESTFLOW);
 				out.writeObject((String)friendtoadd);
 				out.writeObject((User)user);
 				in = new ObjectInputStream(soc.getInputStream());
@@ -46,7 +46,7 @@ public class AddFriendRequestThread extends Thread{
 				}
 			}
 			catch(Exception ex) {
-				new SendLogThread(Level.SEVERE,ex);
+				new SendLogThread(Level.SEVERE,ex).run();
 			}
 			finally{
 					try{	
@@ -55,7 +55,7 @@ public class AddFriendRequestThread extends Thread{
 						soc.close();
 					}
 					catch(Exception ex){
-						new SendLogThread(Level.SEVERE,ex);
+						new SendLogThread(Level.SEVERE,ex).run();
 					}
 
 			}

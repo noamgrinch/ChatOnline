@@ -58,7 +58,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 					password.setText("");
 				}
 				catch(Exception ex) {
-					new SendLogThread(Level.SEVERE,ex);
+					new SendLogThread(Level.SEVERE,ex).run();
 				}
 			
 		}

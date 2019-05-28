@@ -17,12 +17,15 @@ public class ClientThread extends Thread{
 	private final int PUTFLOW=2;
 	private final int LOGINFLOW=3;
 	private final int REGFLOW=4;
-	private final int ADDFRIENDFLOW = 5;
+	private final int ADDFRIENDREQUESTFLOW = 5;
 	private final int FRIENDUPDATEFLOW = 6 ;
 	private final int REMOVEFRIENDFLOW = 7;
 	private final int GETUSERFLOW=8;
 	private final int GETSETCHAT = 9;
 	private final int LOGOFFFLOW = 10;
+	private final int GETINREQUESTSFLOW=11;
+	private final int ADDFRIENDFLOW = 12;
+	private final int DECLINEFRIENDREQUESTFLOW = 13;
 	
 	
 	public ClientThread(Socket s,UsersDB userDB,ChatsDB chatsDB) {
@@ -49,7 +52,7 @@ public class ClientThread extends Thread{
 				if(code==REGFLOW){
 					new ServerRegThread(s,userDB,in).run();
 				}
-				if(code==ADDFRIENDFLOW){
+				if(code==ADDFRIENDREQUESTFLOW){
 					new ServerAddFriendThread(s,userDB,in).run();
 				}
 				if(code==FRIENDUPDATEFLOW){
@@ -66,6 +69,16 @@ public class ClientThread extends Thread{
 				}
 				if(code==LOGOFFFLOW){
 					new ServerUserLogOffThread(s,userDB,in).run();
+				}
+				if(code==GETINREQUESTSFLOW){
+					new ServerGetInFriendRequestsThread(s,userDB,in).run();
+				}				
+				if(code==ADDFRIENDFLOW){
+					new ServerConfirmFriendRequestsThread(s,userDB,in).run();
+				}
+				
+				if(code==DECLINEFRIENDREQUESTFLOW){
+					new ServerDeclineFriendRequestsThread(s,userDB,in).run();
 				}
 				
 				

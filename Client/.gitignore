@@ -8,3 +8,7 @@
 /TopPanelUpdaterThread.class
 /initillizeUserThread.class
 /ClientLogOffThread.class
+/ClientGetInFriendRequestsThtread.class
+/ClientGetInFriendRequestsThread.class
+/ClientConfirmFriendThread.class
+/ClientDeclineFriendThread.class

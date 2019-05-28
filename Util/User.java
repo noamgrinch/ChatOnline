@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 public class User implements Serializable{
@@ -23,6 +24,8 @@ public class User implements Serializable{
 	private Date RegistrationDate;
 	private static int userID;
 	private int ID;
+	private TreeSet<String> outfriendsreqests;
+	private TreeSet<String> infriendsreqests;
 	
 	public User(String name,String password,String email){
 		userID++;
@@ -38,6 +41,8 @@ public class User implements Serializable{
 		this.friends = new TreeMap<String,User>();
 		this.status=false;
 		this.RegistrationDate = new Date();
+		setOutFriendsreqests(new TreeSet<String>());
+		setInfriendsreqests(new TreeSet<String>());
 	}
 	
 	public synchronized void addToFriendsList(User friend) {
@@ -131,6 +136,46 @@ public class User implements Serializable{
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+
+	public TreeSet<String> getOutFriendsreqests() {
+		return outfriendsreqests;
+	}
+
+	public void setOutFriendsreqests(TreeSet<String> friendsreqests) {
+		this.outfriendsreqests = friendsreqests;
+	}
+	
+	public void addOutFriendRequest(String username) {
+		this.outfriendsreqests.add(username);
+	}
+	
+	public void removeOutFriendRequest(String username) {
+		if(this.outfriendsreqests.contains(username)) {
+			this.outfriendsreqests.remove(username);
+		}
+	}
+
+	public TreeSet<String> getInfriendsreqests() {
+		return infriendsreqests;
+	}
+
+	public void setInfriendsreqests(TreeSet<String> infriendsreqests) {
+		this.infriendsreqests = infriendsreqests;
+	}
+	
+	public void addInFriendRequest(String username) {
+		this.infriendsreqests.add(username);
+	}
+	
+	public void removeInFriendRequest(String username) {
+		if(this.infriendsreqests.contains(username)) {
+			this.infriendsreqests.remove(username);
+		}
+	}
+	
+	public TreeSet<String> getInReqeustsFriendsList(){
+		return this.infriendsreqests;
 	}
 
 }

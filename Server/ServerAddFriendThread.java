@@ -31,11 +31,11 @@ public class ServerAddFriendThread extends Thread{
 			boolean ok = DB.exsits(name);
 			out.writeObject(ok);
 			if(ok) {
-				out.writeObject(DB.addFriend(user, name));
+				out.writeObject(DB.addFriendRequest(user, name));
 			}
 		}
 		catch(Exception e){
-			new SendLogThread(Level.SEVERE,e);
+			new SendLogThread(Level.SEVERE,e).run();
 		}
 	}
 }

@@ -11,3 +11,6 @@
 /ServerRemoveFriendThread.class
 /UpdateThread.class
 /ServerUserLogOffThread.class
+/ServerGetInFriendRequestsThread.class
+/ServerConfirmFriendRequestsThread.class
+/ServerDeclineFriendRequestsThread.class

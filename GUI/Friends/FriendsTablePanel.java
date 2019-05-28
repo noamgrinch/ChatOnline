@@ -32,18 +32,22 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 	private JButton add,remove,chat;
 	private FriendsTableUpdaterThread updater;
 	private DefaultTableCellRenderer renderer;
+	private FriendsToolBar toolbar;
+	private DefaultTableModel model;
+	private TitledBorder tableborder;
 	
 	
 	public FriendsTablePanel() {
+		try {
 		
 		//----------------friends table----------------//
-		DefaultTableModel model = new DefaultTableModel() ;
+		model = new DefaultTableModel() ;
 		model.setColumnIdentifiers(columnNames);
 		table = new JTable(model);
 		table.setDefaultEditor(Object.class, null); //users can't double click and edit the tables.
 		table.getTableHeader().setReorderingAllowed(false); //users cannot drag headers.
 		table.setCellSelectionEnabled(true);
-		TitledBorder tableborder = BorderFactory.createTitledBorder("Friends list");
+		tableborder = BorderFactory.createTitledBorder("Friends list");
 		JScrollPane scroll =new JScrollPane(table);
 		scroll.setBorder(tableborder);
 		table.setBorder(BorderFactory.createEmptyBorder());
@@ -67,7 +71,13 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 		bottom.add(chat);
 		this.add(bottom,BorderLayout.SOUTH);
 		//----------------bottom buttons----------------//
+		toolbar = new FriendsToolBar();
+		this.add(toolbar,BorderLayout.NORTH);
+		}
 		
+		  catch(Exception e){
+			  new SendLogThread(Level.SEVERE,e).run();
+		  }
 
 		
 
@@ -100,6 +110,7 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 	
 	public void deliver(User user) {
 		((FriendsFrame) SwingUtilities.getWindowAncestor(this)).setUser(user);
+		toolbar.setUser(((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser());
 		new FriendsTableUpdaterThread(this,((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser()).start();
 
 	}
