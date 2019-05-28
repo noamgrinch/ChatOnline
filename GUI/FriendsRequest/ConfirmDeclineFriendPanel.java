@@ -34,6 +34,7 @@ public class ConfirmDeclineFriendPanel extends JPanel implements ActionListener{
 		decline = new JButton("Decline");
 		decline.addActionListener(this);
 		cancel = new JButton("Cancel");
+		cancel.addActionListener(this);
 		bottom = new JPanel();
 		bottom.add(confirm);
 		bottom.add(decline);
@@ -59,5 +60,9 @@ public class ConfirmDeclineFriendPanel extends JPanel implements ActionListener{
 			new ClientGetInFriendRequestsThread(((ConfirmDeclineFriendFrame) SwingUtilities.getWindowAncestor(this)).getParent(),user).run();
 			((ConfirmDeclineFriendFrame) SwingUtilities.getWindowAncestor(this)).dispose();
 		}
+		if(s.getSource() == cancel) {
+			((ConfirmDeclineFriendFrame) SwingUtilities.getWindowAncestor(this)).dispose();
+		}
+		
 	}
 }
