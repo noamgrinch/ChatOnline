@@ -12,3 +12,4 @@
 /ClientGetInFriendRequestsThread.class
 /ClientConfirmFriendThread.class
 /ClientDeclineFriendThread.class
+/ClientGetOutFriendRequestsThread.class

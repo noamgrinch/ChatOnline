@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.swing.JOptionPane;
+
 
 public class User implements Serializable{
 	
@@ -156,8 +158,10 @@ public class User implements Serializable{
 		}
 	}
 
-	public TreeSet<String> getInfriendsreqests() {
-		return infriendsreqests;
+
+	
+	public TreeSet<String> getOutReqeustsFriendsList() {
+		return this.outfriendsreqests;
 	}
 
 	public void setInfriendsreqests(TreeSet<String> infriendsreqests) {

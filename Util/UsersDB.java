@@ -23,8 +23,10 @@ public class UsersDB {
 		users = new TreeMap<String,User>();
 		User a = new User("a","a","a@a.com");
 		User b = new User("b","b","b@b.com");
+		User c = new User("c","c","c@c.com");
 		users.put("a",a);
 		users.put("b",b);
+		users.put("c",c);
 	}
 	
 	public synchronized boolean exsits(String name) {
@@ -38,6 +40,21 @@ public class UsersDB {
 		User user = users.get(username);
 		user.setStatus(false);
 		return true;
+		
+	}
+	
+	public synchronized Object[][] getOutFriendsRequestsForTable(User user){ 
+		user = this.users.get(user.getName());
+		TreeSet<String> friends = (TreeSet<String>) user.getOutReqeustsFriendsList();
+		Object [][] result = new Object[friends.size()][2];
+		int i=0;
+		for(String fr: friends) {
+			result[i][0] = fr;
+			result[i][1] = ("Pending");
+			i++;
+		}
+		
+		return result;
 		
 	}
 	
@@ -130,6 +147,7 @@ public class UsersDB {
 	}
 	
 	public synchronized User addFriendRequest(User user,String usertobeadded) {
+		user = this.users.get(user.getName());
 		User friend = users.get(usertobeadded);
 		if(friend==null) {
 			return user;

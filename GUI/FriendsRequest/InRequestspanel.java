@@ -31,7 +31,6 @@ public class InRequestspanel extends JPanel implements MouseListener{
 
 	public InRequestspanel(User user) {
 		this.setUser(user);
-		//setTable(new JTable());
 		model = new DefaultTableModel() ;
 		model.setColumnIdentifiers(columnNames);
 		table = new JTable(model);

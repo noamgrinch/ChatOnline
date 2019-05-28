@@ -26,6 +26,7 @@ public class ClientThread extends Thread{
 	private final int GETINREQUESTSFLOW=11;
 	private final int ADDFRIENDFLOW = 12;
 	private final int DECLINEFRIENDREQUESTFLOW = 13;
+	private final int GETOUTREQUESTSFLOW = 14 ;
 	
 	
 	public ClientThread(Socket s,UsersDB userDB,ChatsDB chatsDB) {
@@ -79,6 +80,10 @@ public class ClientThread extends Thread{
 				
 				if(code==DECLINEFRIENDREQUESTFLOW){
 					new ServerDeclineFriendRequestsThread(s,userDB,in).run();
+				}
+				
+				if(code==GETOUTREQUESTSFLOW){
+					new ServerGetOutFriendRequestsThread(s,userDB,in).run();
 				}
 				
 				

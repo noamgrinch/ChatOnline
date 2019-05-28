@@ -14,3 +14,4 @@
 /ServerGetInFriendRequestsThread.class
 /ServerConfirmFriendRequestsThread.class
 /ServerDeclineFriendRequestsThread.class
+/ServerGetOutFriendRequestsThread.class
