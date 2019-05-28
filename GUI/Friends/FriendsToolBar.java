@@ -1,18 +1,25 @@
 package GUI.Friends;
 
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.MenuSelectionManager;
 
+import CentralLogger.SendLogThread;
 import GUI.FriendsRequest.FriendsRequestWindow;
 import Util.User;
 
@@ -57,6 +64,7 @@ public class FriendsToolBar extends JPanel implements MouseListener,MouseMotionL
 		about = new JMenu("About");
 		about.addMouseListener(this);
 		seeabout = new JMenuItem("About this");
+		seeabout.addActionListener(this);
 		about.add(seeabout);
 		menuitemsscontainer.add(seeabout);
 		bar.add(about);
@@ -152,6 +160,17 @@ public class FriendsToolBar extends JPanel implements MouseListener,MouseMotionL
 	public void actionPerformed(ActionEvent s) {
 		if(s.getSource() == friendsrequests){
 			new FriendsRequestWindow(user);
+		}
+		if(s.getSource() == seeabout){
+			System.out.println("first if");
+			if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+				System.out.println("second if");
+			    try {
+					Desktop.getDesktop().browse(new URI("https://github.com/noamgrinch/ChatOnline"));
+				} catch (IOException | URISyntaxException e) {
+					new SendLogThread(Level.SEVERE,e).run();
+				}
+			}
 		}
 	}
 
