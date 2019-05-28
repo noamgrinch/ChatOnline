@@ -2,8 +2,11 @@ package GUI.Friends;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,9 +24,10 @@ import Client.AddFriendRequestThread;
 import Client.FriendsTableUpdaterThread;
 import Client.RemoveFriendRequestThread;
 import GUI.ChatFrame.ChatFrame;
+import GUI.FriendsRequest.ConfirmDeclineFriendFrame;
 import Util.User;
 
-public class FriendsTablePanel extends JPanel implements ActionListener{
+public class FriendsTablePanel extends JPanel implements ActionListener,MouseListener{
 	
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +39,7 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 	private FriendsToolBar toolbar;
 	private DefaultTableModel model;
 	private TitledBorder tableborder;
+	private String pressed;
 	
 	
 	public FriendsTablePanel() {
@@ -46,7 +51,8 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 		table = new JTable(model);
 		table.setDefaultEditor(Object.class, null); //users can't double click and edit the tables.
 		table.getTableHeader().setReorderingAllowed(false); //users cannot drag headers.
-		table.setCellSelectionEnabled(true);
+		table.addMouseListener(this);
+		//table.setCellSelectionEnabled(true);
 		tableborder = BorderFactory.createTitledBorder("Friends list");
 		JScrollPane scroll =new JScrollPane(table);
 		scroll.setBorder(tableborder);
@@ -100,6 +106,11 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 			    table.getColumnModel().getColumn(i).setCellRenderer(renderer);
 			}
 			model.fireTableDataChanged();
+			for(int j=0;j<table.getRowCount();j++) {
+				if(((String)table.getModel().getValueAt(j, 0)).equals(pressed)) {
+					table.setRowSelectionInterval(j, j);
+				}
+			}
 		}
 
 	}
@@ -154,5 +165,45 @@ public class FriendsTablePanel extends JPanel implements ActionListener{
 
 	public void setUpdater(FriendsTableUpdaterThread updater) {
 		this.updater = updater;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent s) {
+        JTable table =(JTable) s.getSource();
+        Point point = s.getPoint();
+        int row = table.rowAtPoint(point);
+        if (s.getClickCount() == 1 && table.getSelectedRow() != -1 && row!=-1) {
+            pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
+        }
+        
+        if (s.getClickCount() == 2 && table.getSelectedRow() != -1 && row!=-1) {
+            pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
+            new ChatFrame(((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),pressed);
+        }
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

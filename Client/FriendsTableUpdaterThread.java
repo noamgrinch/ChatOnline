@@ -25,7 +25,9 @@ public class FriendsTableUpdaterThread extends Thread{
 	}
 	
 	public void run() {
+		while(true) {
 			try {
+				sleep(1000);
 				soc = new Socket("localhost",8888);
 				out = new ObjectOutputStream(soc.getOutputStream());
 				out.writeObject(FRIENDUPDATEFLOW);
@@ -48,6 +50,7 @@ public class FriendsTableUpdaterThread extends Thread{
 				}
 			}
 		}
+	}
 	
 
 }
