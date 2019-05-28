@@ -136,10 +136,7 @@ public class FriendsToolBar extends JPanel implements MouseListener,MouseMotionL
 
 	@Override
 	public void mouseMoved(MouseEvent s) {
-		/*if((s.getSource() != edit && edit.isSelected()) || (s.getSource() !=about && about.isSelected())){
-			MenuSelectionManager.defaultManager().clearSelectedPath();
 
-		}*/
 		
 	}
 	

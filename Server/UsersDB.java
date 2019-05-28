@@ -1,4 +1,4 @@
-package Util;
+package Server;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import CentralLogger.SendLogThread;
+import Util.User;
 
 
 public class UsersDB {

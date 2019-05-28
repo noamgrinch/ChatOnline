@@ -1,8 +1,6 @@
 package Server;
 import java.net.*;
 import CentralLogger.*;
-import Util.ChatsDB;
-import Util.UsersDB;
 
 import java.util.logging.Level;
 

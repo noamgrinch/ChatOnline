@@ -3,8 +3,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import CentralLogger.SendLogThread;
-import Util.ChatsDB;
-import Util.UsersDB;
 
 
 public class ClientThread extends Thread{

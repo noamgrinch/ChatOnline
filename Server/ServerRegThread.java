@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.logging.Level;
 
 import CentralLogger.SendLogThread;
-import Util.UsersDB;
 
 public class ServerRegThread extends Thread{
 	

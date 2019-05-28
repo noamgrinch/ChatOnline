@@ -15,3 +15,6 @@
 /ServerConfirmFriendRequestsThread.class
 /ServerDeclineFriendRequestsThread.class
 /ServerGetOutFriendRequestsThread.class
+/ChatsDB.class
+/UsersDB.class
+/Statement.class

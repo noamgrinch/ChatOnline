@@ -52,7 +52,6 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 		table.setDefaultEditor(Object.class, null); //users can't double click and edit the tables.
 		table.getTableHeader().setReorderingAllowed(false); //users cannot drag headers.
 		table.addMouseListener(this);
-		//table.setCellSelectionEnabled(true);
 		tableborder = BorderFactory.createTitledBorder("Friends list");
 		JScrollPane scroll =new JScrollPane(table);
 		scroll.setBorder(tableborder);
@@ -91,14 +90,13 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 	
 	public synchronized void updateFriendsList(Object[][] friendslist) {
 		if(friendslist==null) {
-			//Object[][] empty = new Object[0][0];
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setRowCount(0);			
 			model.fireTableDataChanged();
 			table.revalidate();
 		}
 		else {
-			DefaultTableModel model = new DefaultTableModel(friendslist,columnNames); // data should be a matrix with pairs of (name,status). should get it from DB.
+			DefaultTableModel model = new DefaultTableModel(friendslist,columnNames); 
 			table.setModel(model);
 			renderer = new DefaultTableCellRenderer();
 			renderer.setHorizontalAlignment(JLabel.CENTER);
@@ -106,7 +104,7 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 			    table.getColumnModel().getColumn(i).setCellRenderer(renderer);
 			}
 			model.fireTableDataChanged();
-			for(int j=0;j<table.getRowCount();j++) {
+			for(int j=0;j<table.getRowCount();j++) { // returns to the selected row.
 				if(((String)table.getModel().getValueAt(j, 0)).equals(pressed)) {
 					table.setRowSelectionInterval(j, j);
 				}

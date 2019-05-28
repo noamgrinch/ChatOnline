@@ -64,7 +64,6 @@ public class InRequestspanel extends JPanel implements MouseListener{
 	
 	public synchronized void updateFriendsInRequests(Object[][] friendslist) {
 		if(friendslist==null) {
-			//Object[][] empty = new Object[0][0];
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setRowCount(0);			
 			model.fireTableDataChanged();

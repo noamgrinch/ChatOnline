@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import CentralLogger.SendLogThread;
+import Server.Statement;
 
 
 public class Storage implements Serializable{

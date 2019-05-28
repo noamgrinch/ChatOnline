@@ -1,7 +1,11 @@
-package Util;
+package Server;
 
 import java.util.Map;
 import java.util.TreeMap;
+
+import Util.Chat;
+import Util.Storage;
+import Util.User;
 
 public class ChatsDB {
 	

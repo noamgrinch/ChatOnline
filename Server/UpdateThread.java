@@ -4,7 +4,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import CentralLogger.SendLogThread;
-import Util.ChatsDB;
 import Util.Storage;
 import Util.User;
 

@@ -1,5 +1,7 @@
-package Util;
+package Server;
 import java.io.Serializable;
+
+import Util.User;
 
 public class Statement implements Serializable{
 	
