@@ -159,9 +159,7 @@ public class FriendsToolBar extends JPanel implements MouseListener,MouseMotionL
 			new FriendsRequestWindow(user);
 		}
 		if(s.getSource() == seeabout){
-			System.out.println("first if");
 			if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-				System.out.println("second if");
 			    try {
 					Desktop.getDesktop().browse(new URI("https://github.com/noamgrinch/ChatOnline"));
 				} catch (IOException | URISyntaxException e) {
