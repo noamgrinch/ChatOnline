@@ -1,9 +1,13 @@
 package GUI.ChatFrame;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import CentralLogger.SendLogThread;
 import Client.TopPanelUpdaterThread;
@@ -22,6 +26,7 @@ public class ChatFrame extends JFrame{
 	private Socket soc;
 	private ObjectOutputStream outob;
 	private ObjectInputStream in;
+	private BufferedImage img;
 	
 	
 	public ChatFrame(User self,String friend) {
@@ -33,6 +38,8 @@ public class ChatFrame extends JFrame{
 			ClientPanel p = new ClientPanel(self,otherguy,chat);
 			this.add(p);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			img = getImage(); //sets up thumbnail.
+			this.setIconImage(img);
 			this.setSize(400, 400);
 			this.setVisible(true);
 			TopPanelUpdaterThread up = new TopPanelUpdaterThread(p); 
@@ -74,6 +81,16 @@ public class ChatFrame extends JFrame{
 	public Chat getChat(){
 		return this.chat;
 	}
+	
+    private BufferedImage getImage() {
+        try {
+            return ImageIO.read(new File("chat-thumbnail.png"));
+        } catch (Exception e) {
+        	new SendLogThread(Level.SEVERE,e).start();
+        }
+
+        return null;
+    }
 	
 }
 
