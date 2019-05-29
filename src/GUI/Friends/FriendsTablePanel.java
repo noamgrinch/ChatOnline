@@ -24,7 +24,6 @@ import Client.AddFriendRequestThread;
 import Client.FriendsTableUpdaterThread;
 import Client.RemoveFriendRequestThread;
 import GUI.ChatFrame.ChatFrame;
-import GUI.FriendsRequest.ConfirmDeclineFriendFrame;
 import Util.User;
 
 public class FriendsTablePanel extends JPanel implements ActionListener,MouseListener{
@@ -40,6 +39,7 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 	private DefaultTableModel model;
 	private TitledBorder tableborder;
 	private String pressed;
+
 	
 	
 	public FriendsTablePanel() {
@@ -88,28 +88,35 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 
 	}
 	
-	public synchronized void updateFriendsList(Object[][] friendslist) {
-		if(friendslist==null) {
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			model.setRowCount(0);			
-			model.fireTableDataChanged();
-			table.revalidate();
-		}
-		else {
-			DefaultTableModel model = new DefaultTableModel(friendslist,columnNames); 
-			table.setModel(model);
-			renderer = new DefaultTableCellRenderer();
-			renderer.setHorizontalAlignment(JLabel.CENTER);
-			for(int i = 0; i < table.getColumnCount(); i++){
-			    table.getColumnModel().getColumn(i).setCellRenderer(renderer);
-			}
-			model.fireTableDataChanged();
-			for(int j=0;j<table.getRowCount();j++) { // returns to the selected row.
-				if(((String)table.getModel().getValueAt(j, 0)).equals(pressed)) {
-					table.setRowSelectionInterval(j, j);
+	public synchronized void updateFriendsList(Object[][] friendslist) {	
+		SwingUtilities.invokeLater(new Runnable(){public void run(){ //All of the table updating threads should happen on the EDT!
+			try{
+				if(friendslist==null) {
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);			
+					model.fireTableDataChanged();
+					table.revalidate();
+				}
+				else {
+					model = new DefaultTableModel(friendslist,columnNames); 
+					table.setModel(model);
+					renderer = new DefaultTableCellRenderer();
+					renderer.setHorizontalAlignment(JLabel.CENTER);
+					for(int i = 0; i < table.getColumnCount(); i++){
+						table.getColumnModel().getColumn(i).setCellRenderer(renderer);
+					}
+					model.fireTableDataChanged();
+					for(int j=0;j<table.getRowCount();j++) { // returns to the selected row.
+						if(((String)table.getModel().getValueAt(j, 0)).equals(pressed)) {
+							table.setRowSelectionInterval(j, j);
+						}
+					}
 				}
 			}
-		}
+			catch(Exception e){
+				new SendLogThread(Level.SEVERE,e).start();
+			}
+		}});
 
 	}
 	
@@ -167,17 +174,22 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 
 	@Override
 	public void mouseClicked(MouseEvent s) {
-        JTable table =(JTable) s.getSource();
-        Point point = s.getPoint();
-        int row = table.rowAtPoint(point);
-        if (s.getClickCount() == 1 && table.getSelectedRow() != -1 && row!=-1) {
-            pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
-        }
+		try{
+			JTable table =(JTable) s.getSource();
+			Point point = s.getPoint();
+			int row = table.rowAtPoint(point);
+			if (s.getClickCount() == 1 && table.getSelectedRow() != -1 && row!=-1) {
+				pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
+			}
         
-        if (s.getClickCount() == 2 && table.getSelectedRow() != -1 && row!=-1) {
-            pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
-            new ChatFrame(((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),pressed);
-        }
+			if (s.getClickCount() == 2 && table.getSelectedRow() != -1 && row!=-1) {
+				pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
+				new ChatFrame(((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),pressed);
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).start();
+		}
 		
 	}
 
