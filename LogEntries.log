@@ -1035,3 +1035,19 @@
 	at Server.ServerAddFriendThread.run(ServerAddFriendThread.java:31)
 	at Server.ClientThread.run(ClientThread.java:55)
 </Message>
+<ThreadID>11</ThreadID>
+<ClassName>CentralLogger.LogThread</ClassName>
+<MethodName>run</MethodName>
+<Date>Thu May 30 05:17:43 IDT 2019</Date>
+<Severity>WARNING</Severity<Message>java.io.IOException: Flow was aborted by user.
+	at Server.ServerAddFriendThread.run(ServerAddFriendThread.java:31)
+	at Server.ClientThread.run(ClientThread.java:55)
+</Message>
+<ThreadID>11</ThreadID>
+<ClassName>CentralLogger.LogThread</ClassName>
+<MethodName>run</MethodName>
+<Date>Thu May 30 05:41:40 IDT 2019</Date>
+<Severity>WARNING</Severity<Message>java.io.IOException: Flow was aborted by user.
+	at Server.ServerAddFriendThread.run(ServerAddFriendThread.java:31)
+	at Server.ClientThread.run(ClientThread.java:55)
+</Message>

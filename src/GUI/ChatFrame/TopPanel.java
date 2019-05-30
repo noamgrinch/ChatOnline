@@ -29,8 +29,8 @@ public class TopPanel extends JPanel{
 		textpane.setEditable(false);	
 		scroll = new JScrollPane(textpane);
 		scroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		border = BorderFactory.createTitledBorder(otherguy);
-		scroll.setBorder(border);
+		//border = BorderFactory.createTitledBorder(otherguy);
+		//scroll.setBorder(border);
 		scroll.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
 		this.add(scroll,BorderLayout.CENTER);

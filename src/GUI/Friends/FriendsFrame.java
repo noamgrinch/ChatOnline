@@ -6,10 +6,8 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.logging.Level;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-
 import CentralLogger.SendLogThread;
 import Client.ClientLogOffThread;
 import Util.User;

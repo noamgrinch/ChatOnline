@@ -1,8 +1,10 @@
 package GUI.Login;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import GUI.Friends.FriendsTablePanel;
 
 public class LoginFrame extends JFrame{
@@ -23,7 +25,7 @@ public class LoginFrame extends JFrame{
 		pan = new LoginPanel(p,this);
 		this.add(pan);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(440,65));
+		this.setPreferredSize(new Dimension(400,65));
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);

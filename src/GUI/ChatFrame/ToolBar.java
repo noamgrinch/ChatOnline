@@ -7,10 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
-import GUI.TextWindow;
 
 
 public class ToolBar extends JPanel implements MouseListener,MouseMotionListener,ActionListener{ //currently not functional.
@@ -148,7 +146,7 @@ public class ToolBar extends JPanel implements MouseListener,MouseMotionListener
 	@Override
 	public void actionPerformed(ActionEvent s) {
 		if(s.getSource() == text){
-			new TextWindow();
+			//new TextWindow();
 		}
 	}
 

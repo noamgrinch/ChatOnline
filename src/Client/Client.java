@@ -11,10 +11,10 @@ import GUI.Login.LoginFrame;
 
 
 public class Client {
-	public static void main(String args[]) {			
-		FriendsFrame p = new FriendsFrame();
+	public static void main(String args[]) {
 		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+			FriendsFrame p = new FriendsFrame();
 			new LoginFrame(p.getPanel());		
 		}
 		catch (Exception e) {
