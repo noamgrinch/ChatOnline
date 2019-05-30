@@ -44,7 +44,6 @@ public class AddFriendRequestThread extends Thread{
 				in = new ObjectInputStream(soc.getInputStream());
 				if((boolean)in.readObject()) {
 					pan.deliver((User)in.readObject());
-					pan.update();
 					JOptionPane.showMessageDialog(((FriendsFrame) SwingUtilities.getWindowAncestor(pan)), "Friend request was sent.");
 				}
 				else {

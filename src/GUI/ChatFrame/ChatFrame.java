@@ -27,6 +27,7 @@ public class ChatFrame extends JFrame{
 	private ObjectOutputStream outob;
 	private ObjectInputStream in;
 	private BufferedImage img;
+	private String thumbnail = "chat-thumbnail.png";
 	
 	
 	public ChatFrame(User self,String friend) {
@@ -38,7 +39,7 @@ public class ChatFrame extends JFrame{
 			ClientPanel p = new ClientPanel(self,otherguy,chat);
 			this.add(p);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			img = getImage(); //sets up thumbnail.
+			img = GUI.Util.getImage(thumbnail); //sets up thumbnail.
 			this.setIconImage(img);
 			this.setSize(400, 400);
 			this.setVisible(true);
@@ -82,15 +83,6 @@ public class ChatFrame extends JFrame{
 		return this.chat;
 	}
 	
-    private BufferedImage getImage() {
-        try {
-            return ImageIO.read(new File("chat-thumbnail.png"));
-        } catch (Exception e) {
-        	new SendLogThread(Level.SEVERE,e).start();
-        }
-
-        return null;
-    }
 	
 }
 

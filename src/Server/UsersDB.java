@@ -78,6 +78,7 @@ public class UsersDB {
 			return user;
 		}
 		User friend = users.get(friendtoremove);
+		friend.removeFriend(user);
 		
 		return user.removeFriend(friend);
 	}

@@ -27,6 +27,7 @@ public class ServerFriendUpdaterThread extends Thread{
 			user = (User)in.readObject();
 			out = new ObjectOutputStream(soc.getOutputStream());
 			out.writeObject(DB.getFriendsForTable(user));
+			out.writeObject(DB.getUser(user.getName()));
 		}
 		catch(Exception e){
 			new SendLogThread(Level.SEVERE,e).run();

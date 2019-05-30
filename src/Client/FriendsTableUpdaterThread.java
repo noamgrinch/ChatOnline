@@ -35,6 +35,7 @@ public class FriendsTableUpdaterThread extends Thread{
 				in = new ObjectInputStream(soc.getInputStream());
 				table = (Object[][])in.readObject();
 				pan.updateFriendsList(table);
+				pan.setUser((User)in.readObject());
 			}
 			catch(Exception ex) {
 				new SendLogThread(Level.SEVERE,ex).run();

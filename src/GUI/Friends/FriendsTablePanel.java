@@ -56,6 +56,7 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 		JScrollPane scroll =new JScrollPane(table);
 		scroll.setBorder(tableborder);
 		table.setBorder(BorderFactory.createEmptyBorder());
+		table.setAutoCreateRowSorter(true);
 		this.setLayout(new BorderLayout());
 		this.add(scroll,BorderLayout.CENTER);
 		//----------------friends table----------------//
@@ -120,9 +121,9 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 
 	}
 	
-	public synchronized void update() {
+	/*public synchronized void update() {
 		new FriendsTableUpdaterThread(this,((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser()).start();
-	}
+	}*/
 	
 	public void deliver(User user) {
 		((FriendsFrame) SwingUtilities.getWindowAncestor(this)).setUser(user);
@@ -214,6 +215,11 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void setUser(User user) {
+		((FriendsFrame) SwingUtilities.getWindowAncestor(this)).setUser(user);
 		
 	}
 }

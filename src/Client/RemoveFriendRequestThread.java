@@ -38,7 +38,7 @@ public class RemoveFriendRequestThread extends Thread{
 				out.writeObject((User)this.user);
 				in = new ObjectInputStream(soc.getInputStream());
 				pan.deliver((User)in.readObject());
-				pan.update();
+
 				
 			}
 			catch(Exception ex) {
