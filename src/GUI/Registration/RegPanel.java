@@ -1,5 +1,6 @@
 package GUI.Registration;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,8 @@ public class RegPanel extends JPanel implements ActionListener{
 	public RegPanel(RegistrationFrame f,LoginPanel loginpanel){
 		this.f=f;
 		this.loginpanel=loginpanel;
+		this.setLayout(new BorderLayout());
+		JPanel mid = new JPanel();
 		lname = new JLabel("Name", JLabel.TRAILING);
 		lpassword = new JLabel("Password", JLabel.TRAILING);
 		lemail = new JLabel("Email", JLabel.TRAILING);
@@ -37,17 +40,22 @@ public class RegPanel extends JPanel implements ActionListener{
 		lpassword.setLabelFor(tpassword);
 		lemail.setLabelFor(temail);
 	    bregister.addActionListener(this);
+	    bregister.setPreferredSize(new Dimension(90,30));
 	    bcancel.addActionListener(this);
-		this.setLayout(new SpringLayout());
-		this.add(lname);
-		this.add(tname);
-		this.add(lpassword);
-		this.add(tpassword);
-		this.add(lemail);
-		this.add(temail);
-		this.add(bregister);
-		this.add(bcancel);
-		SpringUtilities.makeCompactGrid(this,4,2,5,5,5,5);
+	    bcancel.setPreferredSize(new Dimension(90,30));
+	    mid.setLayout(new SpringLayout());
+	    mid.add(lname);
+	    mid.add(tname);
+	    mid.add(lpassword);
+	    mid.add(tpassword);
+	    mid.add(lemail);
+	    mid.add(temail);
+	    SpringUtilities.makeCompactGrid(mid,3,2,4,4,4,4);
+	    this.add(mid,BorderLayout.CENTER);
+	    JPanel bottom = new JPanel();
+	    bottom.add(bregister);
+	    bottom.add(bcancel);
+		this.add(bottom,BorderLayout.SOUTH);
 	}
 
 	@Override

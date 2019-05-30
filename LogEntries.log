@@ -791,3 +791,12 @@
 	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.awt.EventDispatchThread.run(Unknown Source)
 </Message>
+<ThreadID>11</ThreadID>
+<ClassName>CentralLogger.LogThread</ClassName>
+<MethodName>run</MethodName>
+<Date>Thu May 30 03:30:18 IDT 2019</Date>
+<Severity>INFO</Severity<Message>java.lang.Exception: User: asd has registered successfuly.
+	at Server.UsersDB.registerUserInDB(UsersDB.java:121)
+	at Server.ServerRegThread.run(ServerRegThread.java:29)
+	at Server.ClientThread.run(ClientThread.java:52)
+</Message>

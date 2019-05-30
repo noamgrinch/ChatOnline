@@ -43,9 +43,13 @@ public class ClientLoginThread extends Thread{
 					p.Enable();
 					f.close();
 				}
+				
 				else{
 					JOptionPane.showMessageDialog(f, "Invalid user name or password. Please try again.");
 				}
+			}
+			catch(ConnectException e) {
+				JOptionPane.showMessageDialog(f,"Connection to the server have been lost.");
 			}
 			catch(Exception ex) {
 				new SendLogThread(Level.SEVERE,ex).run();
@@ -55,6 +59,12 @@ public class ClientLoginThread extends Thread{
 						out.close();
 						in.close();
 						soc.close();
+					}
+					catch(ConnectException e) {
+						//no connected  to the server.
+					}
+					catch(NullPointerException e) {
+						//no connected  to the server.
 					}
 					catch(Exception ex){
 						new SendLogThread(Level.SEVERE,ex).run();

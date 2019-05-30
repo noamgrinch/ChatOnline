@@ -1,4 +1,5 @@
 package GUI.Registration;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import GUI.Login.LoginPanel;
@@ -13,13 +14,14 @@ public class RegistrationFrame extends JFrame{
 	
 	
 	public RegistrationFrame(LoginPanel loginpanel){
-		super("Registration form");
+		super("Registration");
 		this.setLoginpanel(loginpanel);
 		p = new RegPanel(this,loginpanel);
 		img = GUI.Util.getImage(thumbnail); //sets up thumbnail.
 		this.setIconImage(img);
 		this.add(p);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setPreferredSize(new Dimension(250,150));
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
