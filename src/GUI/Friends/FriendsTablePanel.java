@@ -152,8 +152,18 @@ public class FriendsTablePanel extends JPanel implements ActionListener,MouseLis
 			table.clearSelection();
 		}
 		else if(s.getSource() == remove) {
+			int row = table.getSelectedRow();
+			if (row != -1) {
+				pressed = (String)table.getModel().getValueAt(row, 0); // table.getModel().getValueAt(row, 0) = user value as string.
+				new RemoveFriendRequestThread(this,((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),pressed).run();
+			}
+			else {
+				String toremove = JOptionPane.showInputDialog(((FriendsFrame) SwingUtilities.getWindowAncestor(this)), "Please enter username");
+				if(toremove!=null && !(toremove.trim().length()==0)) {
+					new RemoveFriendRequestThread(this,((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),toremove).run();
+				}
+			}
 			table.clearSelection();
-			new RemoveFriendRequestThread(this,((FriendsFrame) SwingUtilities.getWindowAncestor(this)).getUser(),JOptionPane.showInputDialog(((FriendsFrame) SwingUtilities.getWindowAncestor(this)), "Please enter username")).run();
 		}
 	  }
 	  catch(ArrayIndexOutOfBoundsException e){
