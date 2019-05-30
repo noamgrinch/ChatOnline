@@ -21,6 +21,7 @@ public class FriendsFrame extends JFrame implements WindowListener{
 	private FriendsTablePanel friendstable;
 	private User user;
 	private BufferedImage img;
+	private String thumbnail = "chat-thumbnail.png";
 
 	
 		
@@ -32,7 +33,7 @@ public class FriendsFrame extends JFrame implements WindowListener{
 		this.add(friendstable,BorderLayout.CENTER);		
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		img = getImage(); //sets up thumbnail.
+		img = GUI.Util.getImage(thumbnail); //sets up thumbnail.
 		this.setIconImage(img);
 		this.setSize(270, 490);
 		this.setResizable(false);
@@ -95,14 +96,5 @@ public class FriendsFrame extends JFrame implements WindowListener{
 		
 	}
 	
-    private BufferedImage getImage() {
-        try {
-            return ImageIO.read(new File("chat-thumbnail.png"));
-        } catch (Exception e) {
-        	new SendLogThread(Level.SEVERE,e).start();
-        }
-
-        return null;
-    }
 
 }

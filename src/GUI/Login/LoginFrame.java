@@ -1,11 +1,7 @@
 package GUI.Login;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.logging.Level;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import CentralLogger.SendLogThread;
 import GUI.Friends.FriendsTablePanel;
 
 public class LoginFrame extends JFrame{
@@ -15,11 +11,12 @@ public class LoginFrame extends JFrame{
 	private LoginPanel pan;
 	private FriendsTablePanel p;
 	private BufferedImage img;
+	private String thumbnail = "login-thumbnail.jpg";
 	
 	
 	public LoginFrame(FriendsTablePanel p) throws Exception{
 		super("Login");
-		img = getImage(); //sets up thumbnail.
+		img = GUI.Util.getImage(thumbnail); //sets up thumbnail.
 		this.setIconImage(img);
 		this.setP(p);
 		pan = new LoginPanel(p,this);
@@ -45,14 +42,6 @@ public class LoginFrame extends JFrame{
 		this.p = p;
 	}
 	
-    private BufferedImage getImage() {
-        try {
-            return ImageIO.read(new File("login-thumbnail.jpg"));
-        } catch (Exception e) {
-        	new SendLogThread(Level.SEVERE,e).start();
-        }
 
-        return null;
-    }
 
 }

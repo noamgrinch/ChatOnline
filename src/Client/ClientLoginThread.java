@@ -44,7 +44,7 @@ public class ClientLoginThread extends Thread{
 					f.close();
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Invalid user name or password. Please try again.");
+					JOptionPane.showMessageDialog(f, "Invalid user name or password. Please try again.");
 				}
 			}
 			catch(Exception ex) {

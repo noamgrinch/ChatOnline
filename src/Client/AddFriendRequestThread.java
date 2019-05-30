@@ -1,11 +1,16 @@
 package Client;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import CentralLogger.SendLogThread;
+import GUI.Friends.FriendsFrame;
 import GUI.Friends.FriendsTablePanel;
 import Util.User;
 
@@ -40,19 +45,29 @@ public class AddFriendRequestThread extends Thread{
 				if((boolean)in.readObject()) {
 					pan.deliver((User)in.readObject());
 					pan.update();
+					JOptionPane.showMessageDialog(((FriendsFrame) SwingUtilities.getWindowAncestor(pan)), "Friend request was sent.");
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "User: "+ friendtoadd + " does not exsits.");
+					JOptionPane.showMessageDialog(((FriendsFrame) SwingUtilities.getWindowAncestor(pan)), "User: "+ friendtoadd + " does not exsits.");
 				}
+			}
+			catch(IOException ex) {
+				//User canceled before adding. nothing to do here.
 			}
 			catch(Exception ex) {
 				new SendLogThread(Level.SEVERE,ex).run();
 			}
 			finally{
-					try{	
-						out.close();
-						in.close();
-						soc.close();
+					try{
+						if(out!=null) {
+							out.close();
+						}
+						if(in!=null) {
+							in.close();
+						}
+						if(soc!=null) {
+							soc.close();
+						}
 					}
 					catch(Exception ex){
 						new SendLogThread(Level.SEVERE,ex).run();

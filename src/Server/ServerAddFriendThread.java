@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -26,6 +27,9 @@ public class ServerAddFriendThread extends Thread{
 		try{
 			String name = (String)in.readObject();
 			user = (User)in.readObject();
+			if(name==null || user == null) {
+				throw new IOException("Flow was aborted by user.");
+			}
 			out = new ObjectOutputStream(soc.getOutputStream());
 			boolean ok = DB.exsits(name);
 			out.writeObject(ok);
@@ -33,6 +37,11 @@ public class ServerAddFriendThread extends Thread{
 				out.writeObject(DB.addFriendRequest(user, name));
 			}
 		}
+		catch(IOException ex) {
+			//User canceled before adding. nothing to do here.
+			new SendLogThread(Level.WARNING,ex).run();
+		}
+		
 		catch(Exception e){
 			new SendLogThread(Level.SEVERE,e).run();
 		}
