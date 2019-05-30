@@ -5,8 +5,11 @@ package Util;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
+
+import javax.swing.JOptionPane;
 
 public class SendLogThread extends Thread{
 	
@@ -27,13 +30,20 @@ public class SendLogThread extends Thread{
 			outob = new ObjectOutputStream(Logsoc.getOutputStream());
 			outob.writeObject(level);
 			outob.writeObject(e);
-		} catch (IOException ex) {
+
+		}
+		catch (IOException ex) {
 			ex.printStackTrace();
 		}
 		finally{
 			try {
 				outob.close();
-			} catch (IOException e) {
+				
+			}
+			catch (ConnectException ex) {
+				System.exit(0);
+			}
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 		}

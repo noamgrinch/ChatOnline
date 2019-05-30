@@ -13,7 +13,7 @@ import GUI.Login.LoginFrame;
 public class Client {
 	public static void main(String args[]) {
 		try{
-			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 			FriendsFrame p = new FriendsFrame();
 			new LoginFrame(p.getPanel());		
 		}
