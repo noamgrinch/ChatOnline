@@ -1,14 +1,19 @@
 package Server;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import CentralLogger.SendLogThread;
+import Util.Storage;
+import Util.User;
 
 
 public class ClientThread extends Thread{
 	
 	private Socket s;
 	private ObjectInputStream in;
+	private ObjectOutputStream outob;
 	private UsersDB userDB;
 	private ChatsDB chatsDB;
 	private final int UPDATEFLOW=1;
@@ -34,55 +39,65 @@ public class ClientThread extends Thread{
 	}
 	
 	public void run(){
+		
+		int code;
+		try {
+			in = new ObjectInputStream(s.getInputStream());
+			outob = new ObjectOutputStream(s.getOutputStream());
+		} catch (IOException e) {
+			new SendLogThread(Level.SEVERE,e).run();
+		}
 
 			try {
-				in = new ObjectInputStream(s.getInputStream());
-				int code = (int)in.readObject();
+			  while(true) {	
+
+				code = (int)in.readObject();
 				
 				if(code==UPDATEFLOW){
-					new UpdateThread(s,chatsDB,in).run();
+					updater();
 				}
 				if(code==PUTFLOW){
-					new ServerPutThread(s,chatsDB,in).run();
+					put();
 				}
 				if(code==LOGINFLOW){
-					new ServerLoginThread(s,userDB,in).run();
+					login();
 				}
 				if(code==REGFLOW){
-					new ServerRegThread(s,userDB,in).run();
+					registration();
 				}
 				if(code==ADDFRIENDREQUESTFLOW){
-					new ServerAddFriendThread(s,userDB,in).run();
+					addfriendreqesut();
 				}
 				if(code==FRIENDUPDATEFLOW){
-					new ServerFriendUpdaterThread(s,userDB,in).run();
+					friendupdater();
 				}
 				if(code==REMOVEFRIENDFLOW){
-					new ServerRemoveFriendThread(s,userDB,in).run();
+					removefriend();
 				}
 				if(code==GETUSERFLOW){
-					new ServerInitillizeUserThread(s,userDB,in).run();
+					initillizeuser();
 				}
 				if(code==GETSETCHAT){
-					new ServerInitillizeChatThread(s,chatsDB,in).run();
+					initillizechat();
 				}
 				if(code==LOGOFFFLOW){
-					new ServerUserLogOffThread(s,userDB,in).run();
+					logoff();
 				}
 				if(code==GETINREQUESTSFLOW){
-					new ServerGetInFriendRequestsThread(s,userDB,in).run();
+					getinfriendrequests();
 				}				
 				if(code==ADDFRIENDFLOW){
-					new ServerConfirmFriendRequestsThread(s,userDB,in).run();
+					confirmfriendrequest();
 				}
 				
 				if(code==DECLINEFRIENDREQUESTFLOW){
-					new ServerDeclineFriendRequestsThread(s,userDB,in).run();
+					declinefriendrequest();
 				}
 				
 				if(code==GETOUTREQUESTSFLOW){
-					new ServerGetOutFriendRequestsThread(s,userDB,in).run();
+					getoutfriendrequests();
 				}
+			  }
 				
 				
 			}
@@ -97,8 +112,234 @@ public class ClientThread extends Thread{
 					new SendLogThread(Level.SEVERE,e).run();
 				}
 			}
-
+		}
+	
+	private void updater() {
+		Storage storage;
+		int storagelastline;
+		try{
+			int chatID = (int)in.readObject();
+			storage = chatsDB.getStorageByID(chatID);
+			storagelastline = storage.getLastLine();
+			outob.writeObject(storagelastline);
+			if(storage != null){
+				storagelastline = storage.getLastLine();
+				int updaterline = (int)in.readObject();
+				User user;
+				for(;updaterline<storagelastline;updaterline++){
+					user = storage.getLineUser(updaterline);
+					if(user!=null){
+						outob.writeObject(storage.getLineUser(updaterline));
+						outob.writeObject(storage.getLineSentence(updaterline));
+					}
+				}
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	private void put() {
+		
+		Storage storage;
+		String inputsentence;
+		User user;
+		try{
+			int chatID = (int)in.readObject();
+			storage = chatsDB.getStorageByID(chatID);
+			user=(User)in.readObject();
+			inputsentence=(String)in.readObject();
+			storage.addString(user, inputsentence);
+			outob.writeObject(true);
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+		
 		
 	}
+	
+	public void login() {
+		User user;
+		try{
+			String name = (String)in.readObject();
+			String password = (String)in.readObject();
+			if(userDB.LogIn(name, password)){
+				outob.writeObject(true);
+				user = userDB.getUser(name);
+				outob.writeObject(user); 
+			}
+			else{
+				outob.writeObject(false);
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e);
+		}
+	}
+	
+	public void registration() {
+		try{
+			String name = (String)in.readObject();
+			String password = (String)in.readObject();
+			String email = (String)in.readObject();
+			outob = new ObjectOutputStream(s.getOutputStream());
+			outob.writeObject(userDB.registerUserInDB(name, password,email));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e);
+		}
+	}
+	
+	public void addfriendreqesut() {
+		User user;
+		try{
+			String name = (String)in.readObject();
+			user = (User)in.readObject();
+			if(name==null || user == null) {
+				throw new IOException("Flow was aborted by user.");
+			}
+			boolean ok = userDB.exsits(name);
+			outob.writeObject(ok);
+			if(ok) {
+				outob.writeObject(userDB.addFriendRequest(user, name));
+			}
+		}
+		catch(IOException ex) {
+			//User canceled before adding. nothing to do here.
+			new SendLogThread(Level.WARNING,ex).run();
+		}
+		
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void friendupdater() {
+		User user;
+		try{
+			user = (User)in.readObject();
+			outob = new ObjectOutputStream(s.getOutputStream());
+			outob.writeObject(userDB.getFriendsForTable(user));
+			outob.writeObject(userDB.getUser(user.getName()));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void removefriend() {
+		User user;
+		try{
+			String name = (String)in.readObject();
+			user = (User)in.readObject();
+			outob.writeObject(userDB.removeFriend(user, name));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e);
+		}
+	}
+	
+	public void initillizeuser() {
+		User user;
+		try{	
+			String name = (String)in.readObject();
+			if(userDB.exsits(name)){
+				outob.writeObject(true);
+				user = userDB.getUser(name);
+				outob.writeObject(user); 
+			}
+			else{
+				outob.writeObject(false);
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void initillizechat() {
+		try{	
+			User user1 = (User)in.readObject();
+			User user2 = (User)in.readObject();
+			outob.writeObject(chatsDB.getChat(user1, user2));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void logoff() {
+		String username;
+		try{
+			username = (String)in.readObject();
+			if(userDB.LogOff(username)) {
+				outob.writeObject(true);
+			}
+			else{
+				outob.writeObject(false);
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void getinfriendrequests() {
+		User user;
+		try{
+			user = (User)in.readObject();
+			outob.writeObject(userDB.getInFriendsRequestsForTable(user));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void confirmfriendrequest() {
+		User user;
+		try{
+			String name = (String)in.readObject();
+			user = (User)in.readObject();
+			boolean ok = userDB.exsits(name);
+			outob.writeObject(ok);
+			if(ok) {
+				outob.writeObject(userDB.addFriend(user, name));
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void declinefriendrequest() {
+		User user;
+		try{
+			String name = (String)in.readObject();
+			user = (User)in.readObject();
+			boolean ok = userDB.exsits(name);
+			outob.writeObject(ok);
+			if(ok) {
+				outob.writeObject(userDB.declineFriendRequest(user, name));
+			}
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+	}
+	
+	public void getoutfriendrequests() {
+		User user;
+		try{
+			user = (User)in.readObject();
+			outob.writeObject(userDB.getOutFriendsRequestsForTable(user));
+		}
+		catch(Exception e){
+			new SendLogThread(Level.SEVERE,e).run();
+		}
+
+	}
+	
 
 }
