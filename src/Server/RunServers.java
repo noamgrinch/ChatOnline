@@ -1,6 +1,7 @@
 package Server;
 
 import CentralLogger.CentralLogger;
+import javax.swing.JFrame;
 
 public class RunServers {
 	
@@ -11,6 +12,9 @@ public class RunServers {
 		Thread centrallogger = new Thread(cl);
 		server.start();
 		centrallogger.start();
+		JFrame sr = new JFrame("Servers are running");
+		sr.setVisible(true);
+		sr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
