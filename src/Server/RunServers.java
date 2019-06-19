@@ -2,6 +2,7 @@ package Server;
 
 import CentralLogger.CentralLogger;
 import javax.swing.JFrame;
+import java.awt.Dimension;
 
 public class RunServers {
 	
@@ -13,6 +14,7 @@ public class RunServers {
 		server.start();
 		centrallogger.start();
 		JFrame sr = new JFrame("Servers are running");
+		sr.setSize(new Dimension(300,300));
 		sr.setVisible(true);
 		sr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
